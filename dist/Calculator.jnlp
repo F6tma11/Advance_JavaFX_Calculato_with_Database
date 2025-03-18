@@ -8,12 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Calculator.jar" size="226655" download="eager" />
+    <jar href="Calculator.jar" size="225315" download="eager" />
     <jar href="lib\mysql-connector-j-9.2.0.jar" size="2609756" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Calculator" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="calculator.Calculator"  name="Calculator" />
+  <jfx:javafx-desc  width="800" height="600" main-class="com.fatma.calculator.DAL.Calculator"  name="Calculator" />
   <update check="always"/>
 </jnlp>

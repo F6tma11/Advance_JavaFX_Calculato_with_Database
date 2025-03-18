@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="816.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.CalculationController">
+<AnchorPane id="AnchorPane" prefHeight="816.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatma.calculator.DAL.CalculationController">
    <children>
       <AnchorPane prefHeight="816.0" prefWidth="416.0" style="-fx-background-color: #000000;">
          <children>
