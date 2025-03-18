@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import static javafx.application.ConditionalFeature.FXML;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,7 +42,7 @@ public class CalculationController implements Initializable {
     DBConnection conn = new DBConnection();
     PreparedStatement statment = null;
     Connection connection = null;
-    ResultSet resultSet=null;
+    ResultSet resultSet = null;
 
     @FXML
     private TableColumn<calculation, Integer> col_id;
@@ -71,8 +72,11 @@ public class CalculationController implements Initializable {
     private long number2;
 
     private String operator = "";
-    
-     ObservableList<calculation> calculationsList = FXCollections.observableArrayList();
+    calculation calc = new calculation();
+
+    ObservableList<calculation> calculationsList = FXCollections.observableArrayList();
+    ObservableList<calculation> calculationsData = FXCollections.observableArrayList();
+//---------------------------------Show and Search about data----------------------------
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,54 +90,86 @@ public class CalculationController implements Initializable {
             Logger.getLogger(CalculationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void loadData() throws SQLException{
+
+    @FXML
+    private void searchCalculation() throws SQLException {
+        String searchText = txt_search.getText().trim(); // الحصول على النص المدخل للبحث
+
+        String query = "SELECT * FROM processes WHERE name LIKE ? OR result LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, "%" + searchText + "%");
+        preparedStatement.setString(2, "%" + searchText + "%");
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        calculationsList.clear(); // تنظيف القائمة قبل إضافة البيانات الجديدة
+
+        while (resultSet.next()) {
+            calculation calc = new calculation();
+            calc.setId(resultSet.getInt("id"));
+            calc.setName(resultSet.getString("name"));
+            calc.setResult(resultSet.getInt("result"));
+            calculationsList.add(calc);
+        }
+    }
+
+    private void loadData() throws SQLException {
+        txt_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                searchCalculation();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
         refreshData();
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_result.setCellValueFactory(new PropertyValueFactory<>("result"));
     }
-    
-    private void refreshData() throws SQLException{
+
+    private void refreshData() throws SQLException {
         calculationsList.clear();
-        query="SELECT * FROM processes";
-        statment=connection.prepareStatement(query);
-        resultSet=statment.executeQuery();
-        
-        while(resultSet.next()){
-            calculation calc= new calculation();
-           calc.setId(resultSet.getInt("id"));
-            calc.setName(resultSet.getString("name")); 
+        query = "SELECT * FROM processes";
+        statment = connection.prepareStatement(query);
+        resultSet = statment.executeQuery();
+
+        while (resultSet.next()) {
+            calculation calc = new calculation();
+            calc.setId(resultSet.getInt("id"));
+            calc.setName(resultSet.getString("name"));
             calc.setResult(resultSet.getInt("result"));
             calculationsList.add(calc);
         }
         table_calculation.setItems(calculationsList);
-        
+
+    }
+//--------------------------------------Get Data and Edite--------------------------------
+    int index = -1;
+    int edit_id;
+
+    @FXML
+    private void getSelectedCol() {
+        index = table_calculation.getSelectionModel().getSelectedIndex();
+        if (index <= -1) {
+            return;
+        }
+        edit_id = Integer.parseInt(col_id.getCellData(index).toString());
+        txt_name.setText(col_name.getCellData(index).toString());
+        txt_numbers.setText(col_result.getCellData(index).toString());
     }
 
     @FXML
-    void btn_edit(ActionEvent event)throws SQLException {
-        query="UPDATE processes SET name=? ,result=? WHERE id=?";
-        statment=connection.prepareStatement(query);
+    void btn_edit(ActionEvent event) throws SQLException {
+        query = "UPDATE processes SET name=? ,result=? WHERE id=?";
+        statment = connection.prepareStatement(query);
         statment.setString(1, txt_name.getText().toString());
         statment.setInt(2, Integer.parseInt(txt_numbers.getText().toString()));
         statment.setInt(3, edit_id);
         statment.executeUpdate();
         loadData();
     }
-    int index =-1;
-    int edit_id;
-    @FXML
-    private void getSelectedCol(){
-        index=table_calculation.getSelectionModel().getSelectedIndex();
-        if(index<=-1){
-            return;
-        }
-        edit_id=Integer.parseInt(col_id.getCellData(index).toString());
-        txt_name.setText(col_name.getCellData(index).toString());
-        txt_numbers.setText(col_result.getCellData(index).toString());
-    }
 
+//-----------------------------------Button Event-------------------------------------------    
     @FXML
     void number(ActionEvent event) {
         String number = ((Button) event.getSource()).getText();
@@ -162,33 +198,8 @@ public class CalculationController implements Initializable {
         }
 
     }
-    
 
-    private void calculation(long n1, long n2, String op) {
-        switch (op) {
-            case "+":
-                txt_numbers.setText(n1 + n2 + "");
-               
-                break;
-            case "-":
-                txt_numbers.setText(n1 - n2 + "");
-                break;
-            case "*":
-                txt_numbers.setText(n1 * n2 + "");
-                break;
-            case "/":
-                txt_numbers.setText(n1 / n2 + "");
-                break;
-            case "%":
-                txt_numbers.setText(n1 % n2 + "");
-                break;
-            case "^":
-                txt_numbers.setText(Math.pow(n1, n2) + "");
-                break;
-
-        }
-    }
-
+//------------------------------Save Calculation-------------------------------------------------
     @FXML
     void saveCalculation(ActionEvent event) throws SQLException {
 
@@ -210,6 +221,7 @@ public class CalculationController implements Initializable {
     void clear(ActionEvent event) {
         txt_numbers.setText("");
     }
+//------------------------------Operations--------------------------------------
 
     @FXML
     void trigonometricOperation(ActionEvent event) {
@@ -247,4 +259,28 @@ public class CalculationController implements Initializable {
         txt_numbers.setText(String.valueOf(result));
     }
 
+    private void calculation(long n1, long n2, String op) {
+        switch (op) {
+            case "+":
+                txt_numbers.setText(n1 + n2 + "");
+
+                break;
+            case "-":
+                txt_numbers.setText(n1 - n2 + "");
+                break;
+            case "*":
+                txt_numbers.setText(n1 * n2 + "");
+                break;
+            case "/":
+                txt_numbers.setText(n1 / n2 + "");
+                break;
+            case "%":
+                txt_numbers.setText(n1 % n2 + "");
+                break;
+            case "^":
+                txt_numbers.setText(Math.pow(n1, n2) + "");
+                break;
+
+        }
+    }
 }
