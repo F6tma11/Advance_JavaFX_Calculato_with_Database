@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fatma.calculator.DAL;
+package com.fatma.calculator.controller;
 
-import com.fatma.calculator.common.DBConnection;
-import com.fatma.calculator.entity.calculation;
+import com.fatma.calculator.dao.DBConnection;
+import com.fatma.calculator.model.calculation;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -24,11 +24,12 @@ public class Calculator extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-       Parent root=FXMLLoader.load(getClass().getResource("Calculation.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Calculator");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        System.out.println(getClass().getResource("..\\view\\Calculation.fxml"));
+       Parent root = FXMLLoader.load(getClass().getResource("/com/fatma/calculator/view/Calculation.fxml"));
+    Scene scene = new Scene(root);
+    primaryStage.setTitle("Calculator");
+    primaryStage.setScene(scene);
+    primaryStage.show();
     }
 
     /**

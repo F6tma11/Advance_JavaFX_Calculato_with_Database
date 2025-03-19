@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="816.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatma.calculator.DAL.CalculationController">
+<AnchorPane id="AnchorPane" prefHeight="816.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatma.calculator.controller.CalculationController">
    <children>
       <AnchorPane prefHeight="816.0" prefWidth="416.0" style="-fx-background-color: #000000;">
          <children>
@@ -156,7 +156,7 @@
             </Button>
             <ImageView fitHeight="311.0" fitWidth="316.0" layoutX="43.0" layoutY="537.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@calc1.png" />
+                  <Image url="@../DAL/calc1.png" />
                </image>
             </ImageView>
             <TextField fx:id="txt_name" layoutX="22.0" layoutY="488.0" prefHeight="40.0" prefWidth="219.0" promptText="Name of the calculation" style="-fx-background-color: #ffffff;">
