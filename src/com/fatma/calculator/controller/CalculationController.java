@@ -51,7 +51,7 @@ public class CalculationController implements Initializable {
     private TableColumn<calculation, String> col_name;
 
     @FXML
-    private TableColumn<calculation, Integer> col_result;
+    private TableColumn<calculation, Double> col_result;
 
     @FXML
     private TableView<calculation> table_calculation;
@@ -65,11 +65,11 @@ public class CalculationController implements Initializable {
     @FXML
     private TextField txt_search;
 
-    private long result;
+    private Double result;
 
-    private long number;
+    private Double number;
 
-    private long number2;
+    private Double number2;
 
     private String operator = "";
     calculation calc = new calculation();
@@ -108,7 +108,7 @@ public class CalculationController implements Initializable {
             calculation calc = new calculation();
             calc.setId(resultSet.getInt("id"));
             calc.setName(resultSet.getString("name"));
-            calc.setResult(resultSet.getInt("result"));
+            calc.setResult(resultSet.getDouble("result"));
             calculationsList.add(calc);
         }
     }
@@ -137,7 +137,7 @@ public class CalculationController implements Initializable {
             calculation calc = new calculation();
             calc.setId(resultSet.getInt("id"));
             calc.setName(resultSet.getString("name"));
-            calc.setResult(resultSet.getInt("result"));
+            calc.setResult(resultSet.getDouble("result"));
             calculationsList.add(calc);
         }
         table_calculation.setItems(calculationsList);
@@ -163,7 +163,7 @@ public class CalculationController implements Initializable {
         query = "UPDATE processes SET name=? ,result=? WHERE id=?";
         statment = connection.prepareStatement(query);
         statment.setString(1, txt_name.getText().toString());
-        statment.setInt(2, Integer.parseInt(txt_numbers.getText().toString()));
+        statment.setDouble(2, Double.parseDouble(txt_numbers.getText().toString()));
         statment.setInt(3, edit_id);
         statment.executeUpdate();
         loadData();
@@ -184,13 +184,13 @@ public class CalculationController implements Initializable {
                 return;
             }
             operator = operation;
-            number = Long.parseLong(txt_numbers.getText());
+            number = Double.parseDouble(txt_numbers.getText());
             txt_numbers.setText("");
         } else {
             if (operator.equals("")) {
                 return;
             }
-            number2 = Long.parseLong(txt_numbers.getText());
+            number2 = Double.parseDouble(txt_numbers.getText());
             txt_numbers.setText("");
 
             calculation(number, number2, operator);
@@ -259,7 +259,7 @@ public class CalculationController implements Initializable {
         txt_numbers.setText(String.valueOf(result));
     }
 
-    private void calculation(long n1, long n2, String op) {
+    private void calculation(Double n1, Double n2, String op) {
         switch (op) {
             case "+":
                 txt_numbers.setText(n1 + n2 + "");

@@ -12,7 +12,7 @@ package com.fatma.calculator.model;
 public class calculation {
     private int id;
     private String name;
-    private int result;
+    private Double result;
 
     public int getId() {
         return id;
@@ -30,11 +30,11 @@ public class calculation {
         this.name = name;
     }
 
-    public int getResult() {
+    public Double getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(Double result) {
         this.result = result;
     }
 }

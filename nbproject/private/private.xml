@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/java/Calculator/src/com/fatma/calculator/dao/DBConnection.java</file>
             <file>file:/E:/java/Calculator/src/com/fatma/calculator/view/Calculation.fxml</file>
+            <file>file:/E:/java/Calculator/src/com/fatma/calculator/model/calculation.java</file>
             <file>file:/E:/java/Calculator/src/com/fatma/calculator/controller/CalculationController.java</file>
             <file>file:/E:/java/Calculator/src/com/fatma/calculator/DAL/Calculator.java</file>
         </group>

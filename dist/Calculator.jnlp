@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Calculator.jar" size="225713" download="eager" />
+    <jar href="Calculator.jar" size="225698" download="eager" />
     <jar href="lib\mysql-connector-j-9.2.0.jar" size="2609756" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Calculator" >
